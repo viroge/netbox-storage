@@ -1,0 +1,40 @@
+{% extends 'generic/object.html' %}
+
+{% block content %}
+  <div class="row mb-3">
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Storage Session</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+            <tr>
+              <th scope="row">Name</th>
+              <td>{{ object.name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Cluster</th>
+              <td><a href="{{ object.cluster.get_absolute_url }}">{{ object.cluster }}</a></td>
+            </tr>
+            <tr>
+              <th scope="row">LUN Groups</th>
+              <td>
+                {% for lun_group in object.storage_lun_groups.all %}
+                  <a href="{{ lun_group.get_absolute_url }}">{{ lun_group}}</a>
+                  {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td>{{ object.description }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {% include 'inc/panels/custom_fields.html' %}
+    </div>
+    <div class="col col-md-6">
+      {% include 'inc/panels/tags.html' %}
+    </div>
+  </div>
+{% endblock content %}
