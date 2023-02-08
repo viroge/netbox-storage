@@ -1,5 +1,5 @@
 from netbox.filtersets import NetBoxModelFilterSet
-from .models import StorageLUN, StorageSession, StorageLUNGroup
+from .models import LUN, StorageSession, Datastore
 
 
 # class StorageLUNFilterSet(NetBoxModelFilterSet):

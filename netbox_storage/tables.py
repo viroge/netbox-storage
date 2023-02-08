@@ -1,10 +1,10 @@
 import django_tables2 as tables
 
 from netbox.tables import NetBoxTable, columns
-from .models import StoragePool, StorageSession, StorageLUNGroup, StorageLUN
+from .models import StoragePool, StorageSession, Datastore, LUN, VMDK
 
 
-class StorageUtilizationColumn(columns.UtilizationColumn):
+class UtilizationColumn(columns.UtilizationColumn):
     template_code = """
     {% load helpers %}
     {% if record.pk %}
@@ -17,7 +17,7 @@ class StoragePoolTable(NetBoxTable):
     name = tables.Column(
         linkify=True
     )
-    utilization = StorageUtilizationColumn(
+    utilization = UtilizationColumn(
         accessor='get_utilization',
         orderable=False
     )
@@ -34,7 +34,7 @@ class StoragePoolTable(NetBoxTable):
         default_columns = ('name', 'device', 'size', 'utilization')
 
 
-class StorageLUNTable(NetBoxTable):
+class LUNTable(NetBoxTable):
     name = tables.Column(
         linkify=True
     )
@@ -43,7 +43,7 @@ class StorageLUNTable(NetBoxTable):
     )
 
     class Meta(NetBoxTable.Meta):
-        model = StorageLUN
+        model = LUN
         fields = (
             'pk', 'id', 'name', 'storage_pool', 'size', 'description', 'actions',
         )
@@ -52,22 +52,26 @@ class StorageLUNTable(NetBoxTable):
         )
 
 
-class StorageLUNGroupTable(NetBoxTable):
+class DatastoreTable(NetBoxTable):
     name = tables.Column(
         linkify=True
     )
-    storage_lun = columns.ManyToManyColumn(
+    lun = columns.ManyToManyColumn(
         linkify_item=True,
         verbose_name='LUNs'
     )
+    utilization = UtilizationColumn(
+        accessor='get_utilization',
+        orderable=False
+    )
 
     class Meta(NetBoxTable.Meta):
-        model = StorageLUNGroup
+        model = Datastore
         fields = (
-            'pk', 'id', 'name', 'storage_lun', 'description', 'actions',
+            'pk', 'id', 'name', 'lun', 'utilization', 'description', 'actions',
         )
         default_columns = (
-            'name', 'storage_lun',
+            'name', 'lun', 'utilization',
         )
 
 
@@ -78,17 +82,39 @@ class StorageSessionTable(NetBoxTable):
     cluster = tables.Column(
         linkify=True,
     )
-    storage_lun_groups = columns.ManyToManyColumn(
+    datastores = columns.ManyToManyColumn(
         linkify_item=True,
-        verbose_name='LUN Groups'
+        verbose_name='Datastores'
     )
 
     class Meta(NetBoxTable.Meta):
         model = StorageSession
 
         fields = (
-            'pk', 'id', 'name', 'cluster', 'storage_lun_groups', 'description',
+            'pk', 'id', 'name', 'cluster', 'datastores', 'description',
         )
         default_columns = (
-            'name', 'cluster', 'storage_lun_groups',
+            'name', 'cluster', 'datastores',
+        )
+
+
+class VMDKTable(NetBoxTable):
+    name = tables.Column(
+        linkify=True
+    )
+    vm = tables.Column(
+        linkify=True
+    )
+    datastore = tables.Column(
+        linkify=True
+    )
+
+    class Meta(NetBoxTable.Meta):
+        model = VMDK
+
+        fields = (
+            'pk', 'id', 'vm', 'name', 'datastore', 'size',
+        )
+        default_columns = (
+            'vm', 'datastore', 'name', 'size',
         )

@@ -1,0 +1,48 @@
+<div class="card">
+<h5 class="card-header">Attached VMDKs</h5>
+<div class="card-body">
+<div class="table-responsive">
+    {% if object.vmdks.all %}
+        <table class="table table-hover object-list">
+            <thead>
+                <tr>
+                    <th scope="row">Datastore</th>
+                    <th scope="row">Name</th>
+                    <th scope="row">Size</th>
+                    <th></th>
+                </tr>
+            </thead>
+            {% for vmdk in object.vmdks.all %}
+                <tr>
+                    <td><a href="{{ vmdk.datastore.get_absolute_url }}">{{ vmdk.datastore }}</a></td>
+                    <td><a href="{{ vmdk.get_absolute_url }}">{{ vmdk.name }}</a></td>
+                    <td>{{ vmdk.size }}</td>
+                    <td class="noprint text-end text-nowrap">
+                        <a href="{% url 'plugins:netbox_storage:vmdk_edit' pk=vmdk.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-sm btn-warning">
+                            <i class="mdi mdi-pencil"></i>
+                        </a>
+                        <a href="{% url 'plugins:netbox_storage:vmdk_delete' pk=vmdk.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-sm btn-danger">
+                            <span class="mdi mdi-trash-can-outline"></span>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="text-end noprint">
+            <a href="{% url 'plugins:netbox_storage:vmdk_add' %}?vm={{ object.pk }}&return_url={{ object.get_absolute_url }}" class="btn btn-sm btn-primary">
+                <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Add VMDK
+            </a>
+        </div>
+    {% else %}
+        <tr>
+            <th scope="row"><span class="text-muted">No VMDKs</span></th>
+        </tr>
+        <div class="card-footer text-end noprint">
+            <a href="{% url 'plugins:netbox_storage:vmdk_add' %}?vm={{ object.pk }}&return_url={{ object.get_absolute_url }}" class="btn btn-sm btn-primary">
+                <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Add VMDK
+            </a>
+        </div>
+    {% endif %}
+</div>
+</div>
+</div>

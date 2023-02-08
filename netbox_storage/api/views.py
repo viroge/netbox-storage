@@ -1,7 +1,7 @@
 from netbox.api.viewsets import NetBoxModelViewSet
 
 from .. import filtersets, models
-from .serializers import StoragePoolSerializer, StorageLUNSerializer, StorageSessionSerializer, StorageLUNGroupSerializer
+from .serializers import StoragePoolSerializer, LUNSerializer, StorageSessionSerializer, DatastoreSerializer, VMDKSerializer
 
 
 class StoragePoolViewSet(NetBoxModelViewSet):
@@ -9,22 +9,29 @@ class StoragePoolViewSet(NetBoxModelViewSet):
     serializer_class = StoragePoolSerializer
 
 
-class StorageLUNViewSet(NetBoxModelViewSet):
-    queryset = models.StorageLUN.objects.prefetch_related(
+class LUNViewSet(NetBoxModelViewSet):
+    queryset = models.LUN.objects.prefetch_related(
         'storage_pool', 'tags'
     )
-    serializer_class = StorageLUNSerializer
+    serializer_class = LUNSerializer
 
 
-class StorageLUNGroupViewSet(NetBoxModelViewSet):
-    queryset = models.StorageLUNGroup.objects.prefetch_related(
-        'storage_lun', 'tags'
+class DatastoreViewSet(NetBoxModelViewSet):
+    queryset = models.Datastore.objects.prefetch_related(
+        'lun', 'tags'
     )
-    serializer_class = StorageLUNGroupSerializer
+    serializer_class = DatastoreSerializer
 
 
 class StorageSessionViewSet(NetBoxModelViewSet):
     queryset = models.StorageSession.objects.prefetch_related(
-        'cluster', 'storage_lun_groups', 'tags'
+        'cluster', 'datastores', 'tags'
     )
     serializer_class = StorageSessionSerializer
+
+
+class VMDKViewSet(NetBoxModelViewSet):
+    queryset = models.VMDK.objects.prefetch_related(
+        'datastore', 'vm', 'tags'
+    )
+    serializer_class = VMDKSerializer

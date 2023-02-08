@@ -1,54 +1,71 @@
 from django import forms
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelCSVForm
 from utilities.forms.fields import DynamicModelChoiceField, CSVModelChoiceField, DynamicModelMultipleChoiceField
-from ipam.models import IPAddress
 from dcim.models import Device
-from virtualization.models import Cluster
-from .models import StoragePool, StorageSession, StorageLUN, StorageLUNGroup
+from virtualization.models import Cluster, VirtualMachine
+from .models import StoragePool, StorageSession, LUN, Datastore, VMDK
 
 
 #
 # Regular forms
 #
 class StoragePoolForm(NetBoxModelForm):
+    device = DynamicModelChoiceField(
+        queryset=Device.objects.all()
+    )
 
     class Meta:
         model = StoragePool
         fields = ('name', 'size', 'device', 'description', 'tags')
 
 
-class StorageLUNForm(NetBoxModelForm):
+class LUNForm(NetBoxModelForm):
     storage_pool = DynamicModelChoiceField(
         queryset=StoragePool.objects.all()
     )
 
     class Meta:
-        model = StorageLUN
+        model = LUN
         fields = ('storage_pool', 'name', 'size', 'description')
 
 
-class StorageLUNGroupForm(NetBoxModelForm):
-    storage_lun = DynamicModelMultipleChoiceField(
-        queryset=StorageLUN.objects.all()
+class DatastoreForm(NetBoxModelForm):
+    lun = DynamicModelMultipleChoiceField(
+        queryset=LUN.objects.all()
     )
 
     class Meta:
-        model = StorageLUN
-        fields = ('storage_lun', 'name', 'description')
+        model = LUN
+        fields = ('lun', 'name', 'description')
 
 
 class StorageSessionForm(NetBoxModelForm):
     cluster = DynamicModelChoiceField(
         queryset=Cluster.objects.all(),
     )
-    storage_lun_groups = DynamicModelMultipleChoiceField(
-        queryset=StorageLUNGroup.objects.all()
+    datastores = DynamicModelMultipleChoiceField(
+        queryset=Datastore.objects.all()
     )
 
     class Meta:
         model = StorageSession
         fields = (
-            'name', 'cluster', 'storage_lun_groups', 'description'
+            'name', 'cluster', 'datastores', 'description'
+        )
+
+
+class VMDKForm(NetBoxModelForm):
+    datastore = DynamicModelChoiceField(
+        queryset=Datastore.objects.all(),
+    )
+    vm = DynamicModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+    )
+
+    class Meta:
+        model = VMDK
+        fields = (
+            'vm', 'datastore', 'name', 'size',
         )
 
 

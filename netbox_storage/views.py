@@ -10,7 +10,7 @@ class StoragePoolView(generic.ObjectView):
     queryset = models.StoragePool.objects.all()
 
     def get_extra_context(self, request, instance):
-        table = tables.StorageLUNTable(instance.luns.all())
+        table = tables.LUNTable(instance.luns.all())
         table.configure(request)
 
         return {
@@ -39,38 +39,38 @@ class StoragePoolDeleteView(generic.ObjectDeleteView):
 
 
 #
-# StorageLUN views
+# LUN views
 #
 
-class StorageLUNView(generic.ObjectView):
-    queryset = models.StorageLUN.objects.all()
+class LUNView(generic.ObjectView):
+    queryset = models.LUN.objects.all()
 
 
-class StorageLUNListView(generic.ObjectListView):
-    queryset = models.StorageLUN.objects.all()
-    table = tables.StorageLUNTable
+class LUNListView(generic.ObjectListView):
+    queryset = models.LUN.objects.all()
+    table = tables.LUNTable
     # filterset = filtersets.StorageLUNFilterSet
     # filterset_form = forms.StorageLUNFilterForm
 
 
-class StorageLUNEditView(generic.ObjectEditView):
-    queryset = models.StorageLUN.objects.all()
-    form = forms.StorageLUNForm
+class LUNEditView(generic.ObjectEditView):
+    queryset = models.LUN.objects.all()
+    form = forms.LUNForm
 
 
-class StorageLUNDeleteView(generic.ObjectDeleteView):
-    queryset = models.StorageLUN.objects.all()
+class LUNDeleteView(generic.ObjectDeleteView):
+    queryset = models.LUN.objects.all()
 
 
 #
 # StorageLUNGroup views
 #
 
-class StorageLUNGroupView(generic.ObjectView):
-    queryset = models.StorageLUNGroup.objects.all()
+class DatastoreView(generic.ObjectView):
+    queryset = models.Datastore.objects.all()
 
     def get_extra_context(self, request, instance):
-        luns_table = tables.StorageLUNTable(instance.storage_lun.all())
+        luns_table = tables.LUNTable(instance.lun.all())
         luns_table.configure(request)
 
         sessions_table = tables.StorageSessionTable(instance.storage_sessions.all())
@@ -82,20 +82,20 @@ class StorageLUNGroupView(generic.ObjectView):
         }
 
 
-class StorageLUNGroupListView(generic.ObjectListView):
-    queryset = models.StorageLUNGroup.objects.all()
-    table = tables.StorageLUNGroupTable
+class DatastoreListView(generic.ObjectListView):
+    queryset = models.Datastore.objects.all()
+    table = tables.DatastoreTable
     # filterset = filtersets.StorageLUNGroupFilterSet
     # filterset_form = forms.StorageLUNGroupFilterForm
 
 
-class StorageLUNGroupEditView(generic.ObjectEditView):
-    queryset = models.StorageLUNGroup.objects.all()
-    form = forms.StorageLUNGroupForm
+class DatastoreEditView(generic.ObjectEditView):
+    queryset = models.Datastore.objects.all()
+    form = forms.DatastoreForm
 
 
-class StorageLUNGroupDeleteView(generic.ObjectDeleteView):
-    queryset = models.StorageLUNGroup.objects.all()
+class DatastoreDeleteView(generic.ObjectDeleteView):
+    queryset = models.Datastore.objects.all()
 
 
 #
@@ -120,3 +120,27 @@ class StorageSessionEditView(generic.ObjectEditView):
 
 class StorageSessionDeleteView(generic.ObjectDeleteView):
     queryset = models.StorageSession.objects.all()
+
+
+#
+# VMDK views
+#
+
+class VMDKView(generic.ObjectView):
+    queryset = models.VMDK.objects.all()
+
+
+class VMDKListView(generic.ObjectListView):
+    queryset = models.VMDK.objects.all()
+    table = tables.VMDKTable
+    # filterset = filtersets.StorageSessionFilterSet
+    # filterset_form = forms.StorageSessionFilterForm
+
+
+class VMDKEditView(generic.ObjectEditView):
+    queryset = models.VMDK.objects.all()
+    form = forms.VMDKForm
+
+
+class VMDKDeleteView(generic.ObjectDeleteView):
+    queryset = models.VMDK.objects.all()

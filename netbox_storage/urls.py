@@ -16,24 +16,24 @@ urlpatterns = (
         'model': models.StoragePool
     }),
 
-    # Storage LUNs
-    path('storagelun/', views.StorageLUNListView.as_view(), name='storagelun_list'),
-    path('storagelun/add/', views.StorageLUNEditView.as_view(), name='storagelun_add'),
-    path('storagelun/<int:pk>/', views.StorageLUNView.as_view(), name='storagelun'),
-    path('storagelun/<int:pk>/edit/', views.StorageLUNEditView.as_view(), name='storagelun_edit'),
-    path('storagelun/<int:pk>/delete/', views.StorageLUNDeleteView.as_view(), name='storagelun_delete'),
-    path('storagelun/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='storagelun_changelog', kwargs={
-        'model': models.StorageLUN
+    # LUNs
+    path('lun/', views.LUNListView.as_view(), name='lun_list'),
+    path('lun/add/', views.LUNEditView.as_view(), name='lun_add'),
+    path('lun/<int:pk>/', views.LUNView.as_view(), name='lun'),
+    path('lun/<int:pk>/edit/', views.LUNEditView.as_view(), name='lun_edit'),
+    path('lun/<int:pk>/delete/', views.LUNDeleteView.as_view(), name='lun_delete'),
+    path('lun/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='lun_changelog', kwargs={
+        'model': models.LUN
     }),
 
-    # Storage LUN groups
-    path('storagelungroup/', views.StorageLUNGroupListView.as_view(), name='storagelungroup_list'),
-    path('storagelungroup/add/', views.StorageLUNGroupEditView.as_view(), name='storagelungroup_add'),
-    path('storagelungroup/<int:pk>/', views.StorageLUNGroupView.as_view(), name='storagelungroup'),
-    path('storagelungroup/<int:pk>/edit/', views.StorageLUNGroupEditView.as_view(), name='storagelungroup_edit'),
-    path('storagelungroup/<int:pk>/delete/', views.StorageLUNGroupDeleteView.as_view(), name='storagelungroup_delete'),
-    path('storagelungroup/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='storagelungroup_changelog', kwargs={
-        'model': models.StorageLUNGroup
+    # Datastores
+    path('datastore/', views.DatastoreListView.as_view(), name='datastore_list'),
+    path('datastore/add/', views.DatastoreEditView.as_view(), name='datastore_add'),
+    path('datastore/<int:pk>/', views.DatastoreView.as_view(), name='datastore'),
+    path('datastore/<int:pk>/edit/', views.DatastoreEditView.as_view(), name='datastore_edit'),
+    path('datastore/<int:pk>/delete/', views.DatastoreDeleteView.as_view(), name='datastore_delete'),
+    path('datastore/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='datastore_changelog', kwargs={
+        'model': models.Datastore
     }),
 
     # Storage sessions
@@ -44,5 +44,15 @@ urlpatterns = (
     path('storagesession/<int:pk>/delete/', views.StorageSessionDeleteView.as_view(), name='storagesession_delete'),
     path('storagesession/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='storagesession_changelog', kwargs={
         'model': models.StorageSession
+    }),
+
+    # VMDK
+    path('vmdk/', views.VMDKListView.as_view(), name='vmdk_list'),
+    path('vmdk/add/', views.VMDKEditView.as_view(), name='vmdk_add'),
+    path('vmdk/<int:pk>/', views.VMDKView.as_view(), name='vmdk'),
+    path('vmdk/<int:pk>/edit/', views.VMDKEditView.as_view(), name='vmdk_edit'),
+    path('vmdk/<int:pk>/delete/', views.VMDKDeleteView.as_view(), name='vmdk_delete'),
+    path('vmdk/<int:pk>/changelog/', ObjectChangeLogView.as_view(), name='vmdk_changelog', kwargs={
+        'model': models.VMDK
     }),
 )

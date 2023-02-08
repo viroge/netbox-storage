@@ -36,7 +36,7 @@ class StoragePool(NetBoxModel):
         return min(utilization, 100)
 
 
-class StorageLUN(NetBoxModel):
+class LUN(NetBoxModel):
     storage_pool = models.ForeignKey(
         to=StoragePool,
         on_delete=models.PROTECT,
@@ -58,12 +58,12 @@ class StorageLUN(NetBoxModel):
         return f'{self.name}'
 
     def get_absolute_url(self):
-        return reverse('plugins:netbox_storage:storagelun', args=[self.pk])
+        return reverse('plugins:netbox_storage:lun', args=[self.pk])
 
 
-class StorageLUNGroup(NetBoxModel):
-    storage_lun = models.ManyToManyField(
-        to=StorageLUN,
+class Datastore(NetBoxModel):
+    lun = models.ManyToManyField(
+        to=LUN,
         related_name='lun_groups'
     )
     name = models.CharField(
@@ -80,7 +80,17 @@ class StorageLUNGroup(NetBoxModel):
         return f'{self.name}'
 
     def get_absolute_url(self):
-        return reverse('plugins:netbox_storage:storagelungroup', args=[self.pk])
+        return reverse('plugins:netbox_storage:datastore', args=[self.pk])
+
+    def get_utilization(self):
+        sum_lun_size = self.lun.all().aggregate(Sum('size'))['size__sum']
+        sum_vmdk_size = self.vmdks.all().aggregate(Sum('size'))['size__sum']
+        if sum_lun_size and sum_vmdk_size:
+            utilization = float(sum_vmdk_size) / float(sum_lun_size) * 100
+        else:
+            utilization = 0
+
+        return min(utilization, 100)
 
 
 class StorageSession(NetBoxModel):
@@ -92,8 +102,8 @@ class StorageSession(NetBoxModel):
         on_delete=models.PROTECT,
         related_name='storage_sessions'
     )
-    storage_lun_groups = models.ManyToManyField(
-        to=StorageLUNGroup,
+    datastores = models.ManyToManyField(
+        to=Datastore,
         related_name='storage_sessions'
     )
     description = models.TextField(
@@ -108,3 +118,29 @@ class StorageSession(NetBoxModel):
 
     def get_absolute_url(self):
         return reverse('plugins:netbox_storage:storagesession', args=[self.pk])
+
+
+class VMDK(NetBoxModel):
+    vm = models.ForeignKey(
+        to='virtualization.virtualmachine',
+        on_delete=models.PROTECT,
+        related_name='vmdks'
+    )
+    name = models.CharField(
+        max_length=100
+    )
+    datastore = models.ForeignKey(
+        to=Datastore,
+        related_name='vmdks',
+        on_delete=models.PROTECT
+    )
+    size = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ('datastore', 'name',)
+
+    def __str__(self):
+        return f'{self.vm}-{self.datastore}-{self.name}'
+
+    def get_absolute_url(self):
+        return reverse('plugins:netbox_storage:vmdk', args=[self.pk])

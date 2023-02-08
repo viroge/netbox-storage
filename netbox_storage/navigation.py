@@ -16,18 +16,18 @@ storagepool_buttons = [
     # )
 ]
 
-storageluns_buttons = [
+lun_buttons = [
     PluginMenuButton(
-        link='plugins:netbox_storage:storagelun_add',
+        link='plugins:netbox_storage:lun_add',
         title='Add',
         icon_class='mdi mdi-plus-thick',
         color=ButtonColorChoices.GREEN
     )
 ]
 
-storagelungroups_buttons = [
+datastore_buttons = [
     PluginMenuButton(
-        link='plugins:netbox_storage:storagelungroup_add',
+        link='plugins:netbox_storage:datastore_add',
         title='Add',
         icon_class='mdi mdi-plus-thick',
         color=ButtonColorChoices.GREEN
@@ -43,6 +43,15 @@ storagesession_buttons = [
     )
 ]
 
+vmdk_button = [
+    PluginMenuButton(
+        link='plugins:netbox_storage:vmdk_add',
+        title='Add',
+        icon_class='mdi mdi-plus-thick',
+        color=ButtonColorChoices.GREEN
+    )
+]
+
 menu_items = (
     PluginMenuItem(
         link='plugins:netbox_storage:storagepool_list',
@@ -50,18 +59,23 @@ menu_items = (
         buttons=storagepool_buttons
     ),
     PluginMenuItem(
-        link='plugins:netbox_storage:storagelun_list',
-        link_text='Storage LUNs',
-        buttons=storageluns_buttons
+        link='plugins:netbox_storage:lun_list',
+        link_text='LUNs',
+        buttons=lun_buttons
     ),
     PluginMenuItem(
-        link='plugins:netbox_storage:storagelungroup_list',
-        link_text='Storage LUN Groups',
-        buttons=storagelungroups_buttons
+        link='plugins:netbox_storage:datastore_list',
+        link_text='Datastores',
+        buttons=datastore_buttons
     ),
     PluginMenuItem(
         link='plugins:netbox_storage:storagesession_list',
         link_text='Storage Sessions',
         buttons=storagesession_buttons
+    ),
+    PluginMenuItem(
+        link='plugins:netbox_storage:vmdk_list',
+        link_text='VMDKs',
+        buttons=vmdk_button
     ),
 )

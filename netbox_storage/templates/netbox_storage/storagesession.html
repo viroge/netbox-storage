@@ -16,10 +16,10 @@
               <td><a href="{{ object.cluster.get_absolute_url }}">{{ object.cluster }}</a></td>
             </tr>
             <tr>
-              <th scope="row">LUN Groups</th>
+              <th scope="row">Datastores</th>
               <td>
-                {% for lun_group in object.storage_lun_groups.all %}
-                  <a href="{{ lun_group.get_absolute_url }}">{{ lun_group}}</a>
+                {% for datastore in object.datastores.all %}
+                  <a href="{{ datastore.get_absolute_url }}">{{ datastore }}</a>
                   {% if not forloop.last %}, {% endif %}
                 {% endfor %}
               </td>
