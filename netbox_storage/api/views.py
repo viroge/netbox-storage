@@ -7,6 +7,7 @@ from .serializers import StoragePoolSerializer, LUNSerializer, StorageSessionSer
 class StoragePoolViewSet(NetBoxModelViewSet):
     queryset = models.StoragePool.objects.prefetch_related('device', 'tags')
     serializer_class = StoragePoolSerializer
+    filterset_class = filtersets.StoragePoolFilterSet
 
 
 class LUNViewSet(NetBoxModelViewSet):
@@ -14,6 +15,7 @@ class LUNViewSet(NetBoxModelViewSet):
         'storage_pool', 'tags'
     )
     serializer_class = LUNSerializer
+    filterset_class = filtersets.LUNFilterSet
 
 
 class DatastoreViewSet(NetBoxModelViewSet):
@@ -21,6 +23,7 @@ class DatastoreViewSet(NetBoxModelViewSet):
         'lun', 'tags'
     )
     serializer_class = DatastoreSerializer
+    filterset_class = filtersets.DatastoreFilterSet
 
 
 class StorageSessionViewSet(NetBoxModelViewSet):
@@ -28,6 +31,7 @@ class StorageSessionViewSet(NetBoxModelViewSet):
         'cluster', 'datastores', 'tags'
     )
     serializer_class = StorageSessionSerializer
+    filterset_class = filtersets.StorageSessionFilterSet
 
 
 class VMDKViewSet(NetBoxModelViewSet):
@@ -35,3 +39,4 @@ class VMDKViewSet(NetBoxModelViewSet):
         'datastore', 'vm', 'tags'
     )
     serializer_class = VMDKSerializer
+    filterset_class = filtersets.VMDKFilterSet
