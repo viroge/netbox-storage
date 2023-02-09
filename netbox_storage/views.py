@@ -21,6 +21,8 @@ class StoragePoolView(generic.ObjectView):
 class StoragePoolListView(generic.ObjectListView):
     queryset = models.StoragePool.objects.all()
     table = tables.StoragePoolTable
+    filterset = filtersets.StoragePoolFilterSet
+    filterset_form = forms.StoragePoolFilterForm
 
 
 class StoragePoolEditView(generic.ObjectEditView):
@@ -49,8 +51,8 @@ class LUNView(generic.ObjectView):
 class LUNListView(generic.ObjectListView):
     queryset = models.LUN.objects.all()
     table = tables.LUNTable
-    # filterset = filtersets.StorageLUNFilterSet
-    # filterset_form = forms.StorageLUNFilterForm
+    filterset = filtersets.LUNFilterSet
+    filterset_form = forms.LUNFilterForm
 
 
 class LUNEditView(generic.ObjectEditView):
@@ -85,8 +87,8 @@ class DatastoreView(generic.ObjectView):
 class DatastoreListView(generic.ObjectListView):
     queryset = models.Datastore.objects.all()
     table = tables.DatastoreTable
-    # filterset = filtersets.StorageLUNGroupFilterSet
-    # filterset_form = forms.StorageLUNGroupFilterForm
+    filterset = filtersets.DatastoreFilterSet
+    filterset_form = forms.DatastoreFilterForm
 
 
 class DatastoreEditView(generic.ObjectEditView):
@@ -109,8 +111,8 @@ class StorageSessionView(generic.ObjectView):
 class StorageSessionListView(generic.ObjectListView):
     queryset = models.StorageSession.objects.all()
     table = tables.StorageSessionTable
-    # filterset = filtersets.StorageSessionFilterSet
-    # filterset_form = forms.StorageSessionFilterForm
+    filterset = filtersets.StorageSessionFilterSet
+    filterset_form = forms.StorageSessionFilterForm
 
 
 class StorageSessionEditView(generic.ObjectEditView):
@@ -133,8 +135,8 @@ class VMDKView(generic.ObjectView):
 class VMDKListView(generic.ObjectListView):
     queryset = models.VMDK.objects.all()
     table = tables.VMDKTable
-    # filterset = filtersets.StorageSessionFilterSet
-    # filterset_form = forms.StorageSessionFilterForm
+    filterset = filtersets.VMDKFilterSet
+    filterset_form = forms.VMDKFilterForm
 
 
 class VMDKEditView(generic.ObjectEditView):

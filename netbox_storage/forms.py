@@ -9,6 +9,7 @@ from .models import StoragePool, StorageSession, LUN, Datastore, VMDK
 #
 # Regular forms
 #
+
 class StoragePoolForm(NetBoxModelForm):
     device = DynamicModelChoiceField(
         queryset=Device.objects.all()
@@ -72,57 +73,68 @@ class VMDKForm(NetBoxModelForm):
 #
 # Filter forms
 #
-# class StoragePoolAllocationFilterForm(NetBoxModelFilterSetForm):
-#     model = StoragePoolAllocation
-#     storage_pool = forms.ModelMultipleChoiceField(
-#         queryset=StoragePool.objects.all(),
-#         required=False
-#     )
-#     name = forms.CharField(
-#         required=False
-#     )
-#     allocation_type = forms.MultipleChoiceField(
-#         choices=AllocationTypes,
-#         required=False
-#     )
+
+class StoragePoolFilterForm(NetBoxModelFilterSetForm):
+    model = StoragePool
+    device = DynamicModelMultipleChoiceField(
+        queryset=Device.objects.all(),
+        required=False
+    )
+    name = forms.CharField(
+        required=False
+    )
 
 
-# class StorageSessionFilterForm(NetBoxModelFilterSetForm):
-#     model = StorageSession
-#     storage_pool_allocation = forms.ModelMultipleChoiceField(
-#         queryset=StoragePoolAllocation.objects.all(),
-#         required=False
-#     )
-#     name = forms.CharField(
-#         required=False
-#     )
-#     session_type = forms.MultipleChoiceField(
-#         choices=SessionTypes,
-#         required=False
-#     )
-#     source = DynamicModelChoiceField(
-#         queryset=IPAddress.objects.all(),
-#         required=False
-#     )
-#     destination = DynamicModelChoiceField(
-#         queryset=IPAddress.objects.all(),
-#         required=False
-#     )
+class LUNFilterForm(NetBoxModelFilterSetForm):
+    model = LUN
+    storage_pool = DynamicModelMultipleChoiceField(
+        queryset=StoragePool.objects.all(),
+        required=False
+    )
+    name = forms.CharField(
+        required=False
+    )
 
 
-# class StorageSpaceAllocationFilterForm(NetBoxModelFilterSetForm):
-#     model = StorageSpaceAllocation
-#     storage_pool_allocation = forms.ModelMultipleChoiceField(
-#         queryset=StoragePoolAllocation.objects.all(),
-#         required=False
-#     )
-#     vm = DynamicModelChoiceField(
-#         queryset=VirtualMachine.objects.all(),
-#         required=False
-#     )
-#     name = forms.CharField(
-#         required=False
-#     )
+class DatastoreFilterForm(NetBoxModelFilterSetForm):
+    model = Datastore
+    lun = DynamicModelMultipleChoiceField(
+        queryset=LUN.objects.all(),
+        required=False
+    )
+    name = forms.CharField(
+        required=False
+    )
+
+
+class StorageSessionFilterForm(NetBoxModelFilterSetForm):
+    model = StorageSession
+    cluster = DynamicModelMultipleChoiceField(
+        queryset=Cluster.objects.all(),
+        required=False
+    )
+    datastores = DynamicModelMultipleChoiceField(
+        queryset=Datastore.objects.all(),
+        required=False
+    )
+    name = forms.CharField(
+        required=False
+    )
+
+
+class VMDKFilterForm(NetBoxModelFilterSetForm):
+    model = VMDK
+    datastore = DynamicModelMultipleChoiceField(
+        queryset=Datastore.objects.all(),
+        required=False
+    )
+    vm = DynamicModelMultipleChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False
+    )
+    name = forms.CharField(
+        required=False
+    )
 
 
 # #
