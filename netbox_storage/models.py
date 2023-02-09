@@ -8,7 +8,7 @@ class StoragePool(NetBoxModel):
     name = models.CharField(
         max_length=100
     )
-    size = models.PositiveIntegerField()
+    size = models.PositiveBigIntegerField()
     device = models.ForeignKey(
         to='dcim.Device',
         on_delete=models.PROTECT
@@ -45,7 +45,7 @@ class LUN(NetBoxModel):
     name = models.CharField(
         max_length=100
     )
-    size = models.PositiveIntegerField()
+    size = models.PositiveBigIntegerField()
     description = models.TextField(
         blank=True
     )
@@ -134,7 +134,7 @@ class VMDK(NetBoxModel):
         related_name='vmdks',
         on_delete=models.PROTECT
     )
-    size = models.PositiveIntegerField()
+    size = models.PositiveBigIntegerField()
 
     class Meta:
         ordering = ('datastore', 'name',)
