@@ -12,12 +12,12 @@ A [Netbox](https://github.com/netbox-community/netbox) plugin for storage relate
   - VMDK: can be assigned to a VM and a datastore
 
 # Install
-python3 setup.py build
-python3 setup.py sdist
+ - python3 setup.py build
+ - python3 setup.py sdist
 
-Add dist/netbox-storage* to netbox/local_requirements.txt
-Add netbox_storage to PLUGINS in configuration.py:
-PLUGINS = ['netbox_storage',]
+ - Add dist/netbox-storage* to netbox/local_requirements.txt
+ - Add netbox_storage to PLUGINS in configuration.py:
+ - PLUGINS = ['netbox_storage',]
 
 # Usage
 
