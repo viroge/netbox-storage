@@ -85,7 +85,7 @@ class LUNSerializer(NetBoxModelSerializer):
     class Meta:
         model = LUN
         fields = (
-            'id', 'url', 'display', 'name', 'size', 'storage_pool',
+            'id', 'url', 'display', 'name', 'size', 'storage_pool', 'wwn',
             'description', 'tags', 'custom_fields',
             'created', 'last_updated',
         )

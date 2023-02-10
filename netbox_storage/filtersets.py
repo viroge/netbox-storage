@@ -16,7 +16,7 @@ class LUNFilterSet(NetBoxModelFilterSet):
 
     class Meta:
         model = LUN
-        fields = ('id', 'storage_pool', 'name',)
+        fields = ('id', 'storage_pool', 'name', 'wwn',)
 
     def search(self, queryset, name, value):
         return queryset.filter(description__icontains=value)

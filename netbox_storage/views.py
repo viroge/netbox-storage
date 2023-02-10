@@ -34,6 +34,12 @@ class StoragePoolDeleteView(generic.ObjectDeleteView):
     queryset = models.StoragePool.objects.all()
 
 
+class StoragePoolBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.StoragePool.objects.all()
+    table = tables.StoragePoolTable
+    filterset = filtersets.StoragePoolFilterSet
+
+
 # class StoragePoolImportView(generic.BulkImportView):
 #     queryset = models.StoragePool.objects.all()
 #     model_form = forms.StoragePoolCSVForm
@@ -62,6 +68,12 @@ class LUNEditView(generic.ObjectEditView):
 
 class LUNDeleteView(generic.ObjectDeleteView):
     queryset = models.LUN.objects.all()
+
+
+class LUNBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.LUN.objects.all()
+    table = tables.LUNTable
+    filterset = filtersets.LUNFilterSet
 
 
 #
@@ -100,6 +112,12 @@ class DatastoreDeleteView(generic.ObjectDeleteView):
     queryset = models.Datastore.objects.all()
 
 
+class DatastoreBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.Datastore.objects.all()
+    table = tables.DatastoreTable
+    filterset = filtersets.DatastoreFilterSet
+
+
 #
 # StorageSession views
 #
@@ -124,6 +142,12 @@ class StorageSessionDeleteView(generic.ObjectDeleteView):
     queryset = models.StorageSession.objects.all()
 
 
+class StorageSessionBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.StorageSession.objects.all()
+    table = tables.StorageSessionTable
+    filterset = filtersets.StorageSessionFilterSet
+
+
 #
 # VMDK views
 #
@@ -146,3 +170,9 @@ class VMDKEditView(generic.ObjectEditView):
 
 class VMDKDeleteView(generic.ObjectDeleteView):
     queryset = models.VMDK.objects.all()
+
+
+class VMDKBulkDeleteView(generic.BulkDeleteView):
+    queryset = models.VMDK.objects.all()
+    filterset = filtersets.VMDKFilterSet
+    table = tables.VMDKTable

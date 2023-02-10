@@ -21,7 +21,11 @@
             </tr>
             <tr>
               <th scope="row">Size</th>
-              <td>{{ object.size }} Bytes</td>
+              <td>{{ object.size|filesizeformat }}</td>
+            </tr>
+            <tr>
+              <th scope="row">WWN</th>
+              <td>{{ object.wwn }}</td>
             </tr>
             <tr>
               <th scope="row">Description</th>

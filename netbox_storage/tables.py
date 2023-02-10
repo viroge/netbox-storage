@@ -1,5 +1,6 @@
 import django_tables2 as tables
 
+from django.template.defaultfilters import filesizeformat
 from netbox.tables import NetBoxTable, columns
 from .models import StoragePool, StorageSession, Datastore, LUN, VMDK
 
@@ -33,6 +34,9 @@ class StoragePoolTable(NetBoxTable):
         )
         default_columns = ('name', 'device', 'size', 'utilization')
 
+    def render_size(self, value):
+        return filesizeformat(value)
+
 
 class LUNTable(NetBoxTable):
     name = tables.Column(
@@ -45,11 +49,14 @@ class LUNTable(NetBoxTable):
     class Meta(NetBoxTable.Meta):
         model = LUN
         fields = (
-            'pk', 'id', 'name', 'storage_pool', 'size', 'description', 'actions',
+            'pk', 'id', 'name', 'storage_pool', 'size', 'wwn', 'description', 'actions',
         )
         default_columns = (
             'name', 'storage_pool', 'size',
         )
+
+    def render_size(self, value):
+        return filesizeformat(value)
 
 
 class DatastoreTable(NetBoxTable):
@@ -58,7 +65,7 @@ class DatastoreTable(NetBoxTable):
     )
     lun = columns.ManyToManyColumn(
         linkify_item=True,
-        verbose_name='LUNs'
+        verbose_name='LUNs',
     )
     utilization = UtilizationColumn(
         accessor='get_utilization',
@@ -118,3 +125,6 @@ class VMDKTable(NetBoxTable):
         default_columns = (
             'vm', 'datastore', 'name', 'size',
         )
+
+    def render_size(self, value):
+        return filesizeformat(value)

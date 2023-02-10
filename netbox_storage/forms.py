@@ -27,7 +27,7 @@ class LUNForm(NetBoxModelForm):
 
     class Meta:
         model = LUN
-        fields = ('storage_pool', 'name', 'size', 'description')
+        fields = ('storage_pool', 'name', 'size', 'wwn', 'description')
 
 
 class DatastoreForm(NetBoxModelForm):
