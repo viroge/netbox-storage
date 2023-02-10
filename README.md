@@ -10,3 +10,12 @@ A [Netbox](https://github.com/netbox-community/netbox) plugin for storage relate
   - Datastores: created on LUN(s)
   - Storage Sessions: the "source" of a session is a Netbox Virtualization Cluster, the "destination" is the LUN Group
   - VMDK: can be assigned to a VM and a datastore
+
+# Usage
+
+1. Create regular Netbox objects: a storage Device, a virtualization Cluster, and a Virtual Machine
+2. Create a Storage Pool that is assigned to the above created Device
+3. Create LUN(s) on the Storage Pool
+4. Create Datastore(s) on LUNs
+5. Create Storage Session between the Cluster and the Datastore
+6. Create VMDK on the VM that is on a Cluster that has a Storage Session: this is possible either from the main menu, or on the VM's own page
