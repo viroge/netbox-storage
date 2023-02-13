@@ -94,6 +94,10 @@ class LUNFilterForm(NetBoxModelFilterSetForm):
     name = forms.CharField(
         required=False
     )
+    wwn = forms.CharField(
+        required=False,
+        label='WWN'
+    )
 
 
 class DatastoreFilterForm(NetBoxModelFilterSetForm):
