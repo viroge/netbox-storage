@@ -1,6 +1,6 @@
 from django import forms
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelCSVForm
-from utilities.forms.fields import DynamicModelChoiceField, CSVModelChoiceField, DynamicModelMultipleChoiceField
+from utilities.forms.fields import DynamicModelChoiceField, CSVModelChoiceField, DynamicModelMultipleChoiceField, CSVModelMultipleChoiceField
 from dcim.models import Device
 from virtualization.models import Cluster, VirtualMachine
 from .models import StoragePool, StorageSession, LUN, Datastore, VMDK
@@ -141,16 +141,70 @@ class VMDKFilterForm(NetBoxModelFilterSetForm):
     )
 
 
-# #
-# # CSV Forms
-# #
+#
+# CSV Forms
+#
 
-# class StoragePoolCSVForm(NetBoxModelCSVForm):
-#     device = CSVModelChoiceField(
-#         queryset=Device.objects.all(),
-#         to_field_name='name',
-#     )
+class StoragePoolCSVForm(NetBoxModelCSVForm):
+    device = CSVModelChoiceField(
+        queryset=Device.objects.all(),
+        to_field_name='name',
+    )
 
-#     class Meta:
-#         model = StoragePool
-#         fields = ('name', 'size', 'device', 'description')
+    class Meta:
+        model = StoragePool
+        fields = ('name', 'size', 'device', 'description')
+
+
+class LUNCSVForm(NetBoxModelCSVForm):
+    storage_pool = CSVModelChoiceField(
+        queryset=StoragePool.objects.all(),
+        to_field_name='name',
+    )
+
+    class Meta:
+        model = LUN
+        fields = ('storage_pool', 'name', 'size', 'wwn', 'description')
+
+
+class DatastoreCSVForm(NetBoxModelCSVForm):
+    lun = CSVModelMultipleChoiceField(
+        queryset=LUN.objects.all(),
+        to_field_name='name',
+        help_text='A single LUN name or multiple LUN names separated by commas ("LUN" or "LUN1,LUN2,LUN3")'
+    )
+
+    class Meta:
+        model = Datastore
+        fields = ('lun', 'name', 'description')
+
+
+class StorageSessionCSVForm(NetBoxModelCSVForm):
+    cluster = CSVModelChoiceField(
+        queryset=Cluster.objects.all(),
+        to_field_name='name',
+    )
+    datastores = CSVModelMultipleChoiceField(
+        queryset=Datastore.objects.all(),
+        to_field_name='name',
+        help_text='A single Datastore name or multiple Datastore names separated by commas ("datastore1" or "datastore1,datastore2,datastore3")'
+    )
+
+    class Meta:
+        model = StorageSession
+        fields = ('cluster', 'datastores', 'name', 'description')
+
+
+class VMDKCSVForm(NetBoxModelCSVForm):
+    vm = CSVModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        to_field_name='name',
+    )
+    datastore = CSVModelChoiceField(
+        queryset=Datastore.objects.all(),
+        to_field_name='name',
+    )
+
+    class Meta:
+        model = VMDK
+        fields = ('vm', 'datastore', 'name', 'size')

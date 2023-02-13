@@ -8,12 +8,12 @@ storagepool_buttons = [
         icon_class='mdi mdi-plus-thick',
         color=ButtonColorChoices.GREEN
     ),
-    # PluginMenuButton(
-    #     link='plugins:netbox_storage:storagepool_import',
-    #     title='Import',
-    #     icon_class='mdi mdi-upload',
-    #     color=ButtonColorChoices.CYAN
-    # )
+    PluginMenuButton(
+        link='plugins:netbox_storage:storagepool_import',
+        title='Import',
+        icon_class='mdi mdi-upload',
+        color=ButtonColorChoices.CYAN
+    )
 ]
 
 lun_buttons = [
@@ -22,6 +22,12 @@ lun_buttons = [
         title='Add',
         icon_class='mdi mdi-plus-thick',
         color=ButtonColorChoices.GREEN
+    ),
+    PluginMenuButton(
+        link='plugins:netbox_storage:lun_import',
+        title='Import',
+        icon_class='mdi mdi-upload',
+        color=ButtonColorChoices.CYAN
     )
 ]
 
@@ -31,6 +37,12 @@ datastore_buttons = [
         title='Add',
         icon_class='mdi mdi-plus-thick',
         color=ButtonColorChoices.GREEN
+    ),
+    PluginMenuButton(
+        link='plugins:netbox_storage:datastore_import',
+        title='Import',
+        icon_class='mdi mdi-upload',
+        color=ButtonColorChoices.CYAN
     )
 ]
 
@@ -40,6 +52,12 @@ storagesession_buttons = [
         title='Add',
         icon_class='mdi mdi-plus-thick',
         color=ButtonColorChoices.GREEN
+    ),
+    PluginMenuButton(
+        link='plugins:netbox_storage:storagesession_import',
+        title='Import',
+        icon_class='mdi mdi-upload',
+        color=ButtonColorChoices.CYAN
     )
 ]
 
@@ -49,6 +67,12 @@ vmdk_button = [
         title='Add',
         icon_class='mdi mdi-plus-thick',
         color=ButtonColorChoices.GREEN
+    ),
+    PluginMenuButton(
+        link='plugins:netbox_storage:vmdk_import',
+        title='Import',
+        icon_class='mdi mdi-upload',
+        color=ButtonColorChoices.CYAN
     )
 ]
 
