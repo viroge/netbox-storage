@@ -1,4 +1,4 @@
-from extras.plugins import PluginMenuButton, PluginMenuItem
+from extras.plugins import PluginMenuButton, PluginMenuItem, PluginMenu
 from utilities.choices import ButtonColorChoices
 
 storagepool_buttons = [
@@ -76,30 +76,51 @@ vmdk_button = [
     )
 ]
 
-menu_items = (
+storagepool_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:storagepool_list',
         link_text='Storage Pools',
         buttons=storagepool_buttons
-    ),
+    )
+)
+
+lun_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:lun_list',
         link_text='LUNs',
         buttons=lun_buttons
-    ),
+    )
+)
+
+datastore_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:datastore_list',
         link_text='Datastores',
         buttons=datastore_buttons
-    ),
+    )
+)
+
+storagesession_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:storagesession_list',
         link_text='Storage Sessions',
         buttons=storagesession_buttons
-    ),
+    )
+)
+
+vmdk_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:vmdk_list',
         link_text='VMDKs',
         buttons=vmdk_button
+    )
+)
+
+menu = PluginMenu(
+    label='Storage',
+    groups=(
+        ('Storage', (storagepool_item, lun_item)),
+        ('Virtualization', (datastore_item, storagesession_item, vmdk_item))
     ),
+    icon_class='mdi mdi-nas'
 )
