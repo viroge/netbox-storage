@@ -1,4 +1,6 @@
 from netbox.filtersets import NetBoxModelFilterSet
+import django_filters
+from virtualization.models import VirtualMachine
 from .models import StoragePool, LUN, StorageSession, Datastore, VMDK
 
 
@@ -9,7 +11,7 @@ class StoragePoolFilterSet(NetBoxModelFilterSet):
         fields = ('id', 'name', 'device')
 
     def search(self, queryset, name, value):
-        return queryset.filter(description__icontains=value)
+        return queryset.filter(name__icontains=value)
 
 
 class LUNFilterSet(NetBoxModelFilterSet):
@@ -19,17 +21,22 @@ class LUNFilterSet(NetBoxModelFilterSet):
         fields = ('id', 'storage_pool', 'name', 'wwn',)
 
     def search(self, queryset, name, value):
-        return queryset.filter(description__icontains=value)
+        return queryset.filter(name__icontains=value)
 
 
 class DatastoreFilterSet(NetBoxModelFilterSet):
+    reachable_by_vm = django_filters.ModelMultipleChoiceFilter(
+        field_name='storage_sessions__cluster__virtual_machines',
+        queryset=VirtualMachine.objects.all(),
+        label='Reachable by these Virtual Machines'
+    )
 
     class Meta:
         model = Datastore
-        fields = ('id', 'lun', 'name',)
+        fields = ('id', 'lun', 'name', 'reachable_by_vm',)
 
     def search(self, queryset, name, value):
-        return queryset.filter(description__icontains=value)
+        return queryset.filter(name__icontains=value)
 
 
 class StorageSessionFilterSet(NetBoxModelFilterSet):
@@ -41,7 +48,7 @@ class StorageSessionFilterSet(NetBoxModelFilterSet):
         )
 
     def search(self, queryset, name, value):
-        return queryset.filter(description__icontains=value)
+        return queryset.filter(name__icontains=value)
 
 
 class VMDKFilterSet(NetBoxModelFilterSet):
@@ -53,4 +60,4 @@ class VMDKFilterSet(NetBoxModelFilterSet):
         )
 
     def search(self, queryset, name, value):
-        return queryset.filter(description__icontains=value)
+        return queryset.filter(name__icontains=value)

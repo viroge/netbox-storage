@@ -16,7 +16,7 @@
                 <tr>
                     <td><a href="{{ vmdk.datastore.get_absolute_url }}">{{ vmdk.datastore }}</a></td>
                     <td><a href="{{ vmdk.get_absolute_url }}">{{ vmdk.name }}</a></td>
-                    <td>{{ vmdk.size }}</td>
+                    <td>{{ vmdk.size|filesizeformat }}</td>
                     <td class="noprint text-end text-nowrap">
                         <a href="{% url 'plugins:netbox_storage:vmdk_edit' pk=vmdk.pk %}?return_url={{ object.get_absolute_url }}" class="btn btn-sm btn-warning">
                             <i class="mdi mdi-pencil"></i>

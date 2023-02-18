@@ -35,7 +35,7 @@ class StoragePool(NetBoxModel):
         else:
             utilization = 0
 
-        return min(utilization, 100)
+        return utilization
 
 
 class LUN(NetBoxModel):
@@ -73,7 +73,7 @@ class LUN(NetBoxModel):
 class Datastore(NetBoxModel):
     lun = models.ManyToManyField(
         to=LUN,
-        related_name='lun_groups'
+        related_name='datastores'
     )
     name = models.CharField(
         max_length=100
@@ -99,7 +99,7 @@ class Datastore(NetBoxModel):
         else:
             utilization = 0
 
-        return min(utilization, 100)
+        return utilization
 
 
 class StorageSession(NetBoxModel):
@@ -133,7 +133,8 @@ class VMDK(NetBoxModel):
     vm = models.ForeignKey(
         to='virtualization.virtualmachine',
         on_delete=models.PROTECT,
-        related_name='vmdks'
+        related_name='vmdks',
+        verbose_name='Virtual Machine'
     )
     name = models.CharField(
         max_length=100
@@ -149,6 +150,7 @@ class VMDK(NetBoxModel):
 
     class Meta:
         ordering = ('datastore', 'name',)
+        verbose_name = 'VMDK'
 
     def __str__(self):
         return f'{self.vm}-{self.datastore}-{self.name}'

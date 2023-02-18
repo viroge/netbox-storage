@@ -5,7 +5,7 @@ class NetBoxStorageConfig(PluginConfig):
     name = 'netbox_storage'
     verbose_name = ' NetBox Storage'
     description = 'Netbox Storage Administration Plugin'
-    version = '0.5.1'
+    version = '0.6'
     base_url = 'storage'
     min_version = "3.4.0"
     author = 'Gabor Somogyvari'

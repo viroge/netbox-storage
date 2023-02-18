@@ -40,22 +40,14 @@
       {% include 'inc/panels/tags.html' %}
     </div>
   </div>
-  {% comment %}
   <div class="row">
     <div class="col col-md-12">
       <div class="card">
-        <h5 class="card-header">Storage Space Allocations</h5>
+        <h5 class="card-header">LUNs</h5>
         <div class="card-body table-responsive">
-          {% render_table spaces_table %}
-        </div>
-      </div>
-      <div class="card">
-        <h5 class="card-header">Storage Sessions</h5>
-        <div class="card-body table-responsive">
-          {% render_table sessions_table %}
+          {% render_table datastores_table %}
         </div>
       </div>
     </div>
   </div>
-  {% endcomment %}
 {% endblock content %}

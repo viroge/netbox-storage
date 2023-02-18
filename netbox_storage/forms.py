@@ -56,11 +56,15 @@ class StorageSessionForm(NetBoxModelForm):
 
 
 class VMDKForm(NetBoxModelForm):
-    datastore = DynamicModelChoiceField(
-        queryset=Datastore.objects.all(),
-    )
     vm = DynamicModelChoiceField(
         queryset=VirtualMachine.objects.all(),
+        label='Virtual Machine'
+    )
+    datastore = DynamicModelChoiceField(
+        queryset=Datastore.objects.all(),
+        query_params={
+            'reachable_by_vm': '$vm'
+        }
     )
 
     class Meta:
@@ -108,6 +112,11 @@ class DatastoreFilterForm(NetBoxModelFilterSetForm):
     )
     name = forms.CharField(
         required=False
+    )
+    reachable_by_vm = DynamicModelMultipleChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        label='Reachable by these Virtual Machines'
     )
 
 

@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='netbox-storage',
-    version='0.5.1',
+    version='0.6',
     description='NetBox storage plugin',
     install_requires=[],
     packages=find_packages(),

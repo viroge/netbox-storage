@@ -53,6 +53,14 @@ class StoragePoolImportView(generic.BulkImportView):
 class LUNView(generic.ObjectView):
     queryset = models.LUN.objects.all()
 
+    def get_extra_context(self, request, instance):
+        datastores_table = tables.DatastoreTable(instance.datastores.all())
+        datastores_table.configure(request)
+
+        return {
+            'datastores_table': datastores_table,
+        }
+
 
 class LUNListView(generic.ObjectListView):
     queryset = models.LUN.objects.all()
@@ -96,9 +104,13 @@ class DatastoreView(generic.ObjectView):
         sessions_table = tables.StorageSessionTable(instance.storage_sessions.all())
         sessions_table.configure(request)
 
+        vmdks_table = tables.VMDKTable(instance.vmdks.all())
+        vmdks_table.configure(request)
+
         return {
             'luns_table': luns_table,
             'sessions_table': sessions_table,
+            'vmdks_table': vmdks_table,
         }
 
 
