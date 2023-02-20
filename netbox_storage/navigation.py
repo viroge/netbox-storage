@@ -80,6 +80,7 @@ storagepool_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:storagepool_list',
         link_text='Storage Pools',
+        permissions=['netbox_storage.view_storagepool'],
         buttons=storagepool_buttons
     )
 )
@@ -88,7 +89,8 @@ lun_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:lun_list',
         link_text='LUNs',
-        buttons=lun_buttons
+        buttons=lun_buttons,
+        permissions=['netbox_storage.view_lun'],
     )
 )
 
@@ -96,7 +98,8 @@ datastore_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:datastore_list',
         link_text='Datastores',
-        buttons=datastore_buttons
+        buttons=datastore_buttons,
+        permissions=['netbox_storage.view_datastore'],
     )
 )
 
@@ -104,7 +107,8 @@ storagesession_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:storagesession_list',
         link_text='Storage Sessions',
-        buttons=storagesession_buttons
+        buttons=storagesession_buttons,
+        permissions=['netbox_storage.view_storagesession'],
     )
 )
 
@@ -112,7 +116,8 @@ vmdk_item = (
     PluginMenuItem(
         link='plugins:netbox_storage:vmdk_list',
         link_text='VMDKs',
-        buttons=vmdk_button
+        buttons=vmdk_button,
+        permissions=['netbox_storage.view_vmdk'],
     )
 )
 
