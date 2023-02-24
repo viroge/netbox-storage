@@ -28,16 +28,13 @@
                 </tr>
             {% endfor %}
         </table>
-        <div class="text-end noprint">
-            <a href="{% url 'plugins:netbox_storage:vmdk_add' %}?vm={{ object.pk }}&return_url={{ object.get_absolute_url }}" class="btn btn-sm btn-primary">
-                <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Add VMDK
-            </a>
-        </div>
     {% else %}
         <tr>
             <th scope="row"><span class="text-muted">No VMDKs</span></th>
         </tr>
-        <div class="card-footer text-end noprint">
+    {% endif %}
+    {% if perms.netbox_storage.add_vmdk %}
+        <div class="text-end noprint">
             <a href="{% url 'plugins:netbox_storage:vmdk_add' %}?vm={{ object.pk }}&return_url={{ object.get_absolute_url }}" class="btn btn-sm btn-primary">
                 <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Add VMDK
             </a>
