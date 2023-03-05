@@ -1,7 +1,5 @@
 # Netbox-storage
 
-THIS PLUGIN IS UNDER DEVELOPMENT AND MAY CHANGE.
-
 A [Netbox](https://github.com/netbox-community/netbox) plugin for storage related documentation where virtualization is used. 
 
 5 new object types are introduced: 
@@ -12,12 +10,18 @@ A [Netbox](https://github.com/netbox-community/netbox) plugin for storage relate
   - VMDK: can be assigned to a VM and a datastore
 
 # Install
- - python3 setup.py build
- - python3 setup.py sdist
 
- - Add dist/netbox-storage* to netbox/local_requirements.txt
- - Add netbox_storage to PLUGINS in configuration.py:
- - PLUGINS = ['netbox_storage',]
+The plugin can be installed using pip:
+
+```
+pip install netbox-storage-plugin
+```
+Add netbox_storage to PLUGINS in configuration.py:
+```
+PLUGINS = ['netbox_storage',]
+```
+
+Don't forget to add ```netbox-storage-plugin``` to your local_requirements.txt as well. 
 
 # Usage
 
