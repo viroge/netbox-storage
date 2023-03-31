@@ -1,5 +1,5 @@
 from django import forms
-from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelCSVForm
+from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
 from utilities.forms.fields import DynamicModelChoiceField, CSVModelChoiceField, DynamicModelMultipleChoiceField, CSVModelMultipleChoiceField
 from dcim.models import Device
 from virtualization.models import Cluster, VirtualMachine
@@ -154,7 +154,7 @@ class VMDKFilterForm(NetBoxModelFilterSetForm):
 # CSV Forms
 #
 
-class StoragePoolCSVForm(NetBoxModelCSVForm):
+class StoragePoolCSVForm(NetBoxModelImportForm):
     device = CSVModelChoiceField(
         queryset=Device.objects.all(),
         to_field_name='name',
@@ -165,7 +165,7 @@ class StoragePoolCSVForm(NetBoxModelCSVForm):
         fields = ('name', 'size', 'device', 'description')
 
 
-class LUNCSVForm(NetBoxModelCSVForm):
+class LUNCSVForm(NetBoxModelImportForm):
     storage_pool = CSVModelChoiceField(
         queryset=StoragePool.objects.all(),
         to_field_name='name',
@@ -176,7 +176,7 @@ class LUNCSVForm(NetBoxModelCSVForm):
         fields = ('storage_pool', 'name', 'size', 'wwn', 'description')
 
 
-class DatastoreCSVForm(NetBoxModelCSVForm):
+class DatastoreCSVForm(NetBoxModelImportForm):
     lun = CSVModelMultipleChoiceField(
         queryset=LUN.objects.all(),
         to_field_name='name',
@@ -188,7 +188,7 @@ class DatastoreCSVForm(NetBoxModelCSVForm):
         fields = ('lun', 'name', 'description')
 
 
-class StorageSessionCSVForm(NetBoxModelCSVForm):
+class StorageSessionCSVForm(NetBoxModelImportForm):
     cluster = CSVModelChoiceField(
         queryset=Cluster.objects.all(),
         to_field_name='name',
@@ -204,7 +204,7 @@ class StorageSessionCSVForm(NetBoxModelCSVForm):
         fields = ('cluster', 'datastores', 'name', 'description')
 
 
-class VMDKCSVForm(NetBoxModelCSVForm):
+class VMDKCSVForm(NetBoxModelImportForm):
     vm = CSVModelChoiceField(
         queryset=VirtualMachine.objects.all(),
         to_field_name='name',
