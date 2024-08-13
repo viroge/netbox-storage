@@ -1,5 +1,5 @@
-from extras.plugins import PluginConfig
-
+#from extras.plugins import PluginConfig
+from netbox.plugins import PluginConfig
 
 class NetBoxStorageConfig(PluginConfig):
     name = 'netbox_storage'

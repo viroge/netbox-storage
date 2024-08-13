@@ -1,6 +1,7 @@
-from extras.plugins import PluginMenuButton, PluginMenuItem, PluginMenu
-from utilities.choices import ButtonColorChoices
-
+#from extras.plugins import PluginMenuButton, PluginMenuItem, PluginMenu
+#from utilities.choices import ButtonColorChoices
+from netbox.plugins import PluginMenuItem, PluginMenu, PluginMenuButton
+from netbox.choices import ButtonColorChoices
 
 storagepool_item = PluginMenuItem(
     link='plugins:netbox_storage:storagepool_list',
