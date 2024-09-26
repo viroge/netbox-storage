@@ -57,7 +57,7 @@ class StorageSessionForm(NetBoxModelForm):
 
 class VMDKForm(NetBoxModelForm):
     vm = DynamicModelChoiceField(
-        queryset=VirtualDisk.objects.all(),
+        queryset=VirtualMachine.VirtualDisk.objects.all(),
         label='Virtual Disk'
     )
     datastore = DynamicModelChoiceField(
@@ -142,7 +142,7 @@ class VMDKFilterForm(NetBoxModelFilterSetForm):
         required=False
     )
     vm = DynamicModelMultipleChoiceField(
-        queryset=VirtualDisks.objects.all(),
+        queryset=VirtualMachine.VirtualDisk.objects.all(),
         required=False
     )
     name = forms.CharField(
@@ -206,7 +206,7 @@ class StorageSessionCSVForm(NetBoxModelImportForm):
 
 class VMDKCSVForm(NetBoxModelImportForm):
     vm = CSVModelChoiceField(
-        queryset=VirtualDisk.objects.all(),
+        queryset=VirtualMachine.VirtualDisk.objects.all(),
         to_field_name='name',
     )
     datastore = CSVModelChoiceField(
