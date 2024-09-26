@@ -56,7 +56,7 @@ class LUN(NetBoxModel):
     wwn = models.CharField(
         max_length=64,
         blank=True,
-        verbose_name='WWN'
+        verbose_name='WWN/Share'
     )
 
     class Meta:
@@ -131,10 +131,10 @@ class StorageSession(NetBoxModel):
 
 class VMDK(NetBoxModel):
     vm = models.ForeignKey(
-        to='virtualization.virtualmachine',
+        to='virtualization.virtualdisk',
         on_delete=models.PROTECT,
         related_name='vmdks',
-        verbose_name='Virtual Machine'
+        verbose_name='Virtual Disk'
     )
     name = models.CharField(
         max_length=100

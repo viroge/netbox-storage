@@ -65,7 +65,7 @@ class DatastoreTable(NetBoxTable):
     )
     lun = columns.ManyToManyColumn(
         linkify_item=True,
-        verbose_name='LUNs',
+        verbose_name='LUNs/Shares',
     )
     utilization = UtilizationColumn(
         accessor='get_utilization',
@@ -120,10 +120,10 @@ class VMDKTable(NetBoxTable):
         model = VMDK
 
         fields = (
-            'pk', 'id', 'vm', 'name', 'datastore', 'size',
+            'pk', 'id', 'vmdisk', 'name', 'datastore', 'size',
         )
         default_columns = (
-            'vm', 'datastore', 'name', 'size',
+            'vmdisk', 'datastore', 'name', 'size',
         )
 
     def render_size(self, value):
