@@ -109,7 +109,7 @@ class VMDKTable(NetBoxTable):
     name = tables.Column(
         linkify=True
     )
-    vm = tables.Column(
+    vmdisk = tables.Column(
         linkify=True
     )
     datastore = tables.Column(

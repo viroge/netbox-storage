@@ -56,14 +56,14 @@ class StorageSessionForm(NetBoxModelForm):
 
 
 class VMDKForm(NetBoxModelForm):
-    vm = DynamicModelChoiceField(
+    vmdisk = DynamicModelChoiceField(
         queryset=VirtualDisk.objects.all(),
         label='Virtual Disk'
     )
     datastore = DynamicModelChoiceField(
         queryset=Datastore.objects.all(),
         query_params={
-            'reachable_by_vm': '$vm'
+            'reachable_by_vm': '$vmdisk'
         }
     )
 
