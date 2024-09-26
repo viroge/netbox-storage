@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='netbox-storage-plugin',
-    version='0.6.3',
+    version='0.7.0',
     description='NetBox storage plugin',
     long_description=long_description,
     long_description_content_type='text/markdown',

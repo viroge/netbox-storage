@@ -1,75 +1,17 @@
 from rest_framework import serializers
 
-from virtualization.api.serializers import NestedClusterSerializer, NestedVirtualMachineSerializer
-from dcim.api.serializers import NestedDeviceSerializer
-from netbox.api.serializers import NetBoxModelSerializer, WritableNestedSerializer
+from virtualization.api.serializers import ClusterSerializer, VirtualMachineSerializer
+from dcim.api.serializers import DeviceSerializer
+from netbox.api.serializers import NetBoxModelSerializer
 from netbox.api.fields import SerializedPKRelatedField
 from ..models import StoragePool, LUN, StorageSession, Datastore, VMDK
 
-
-#
-# Nested serializers
-#
-
-class NestedStoragePoolSerializer(WritableNestedSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='plugins-api:netbox_storage-api:storagepool-detail'
-    )
-
-    class Meta:
-        model = StoragePool
-        fields = ('id', 'url', 'display', 'name')
-
-
-class NestedLUNSerializer(WritableNestedSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='plugins-api:netbox_storage-api:lun-detail'
-    )
-
-    class Meta:
-        model = LUN
-        fields = ('id', 'url', 'display', 'name')
-
-
-class NestedDatastoreSerializer(WritableNestedSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='plugins-api:netbox_storage-api:datastore-detail'
-    )
-
-    class Meta:
-        model = Datastore
-        fields = ('id', 'url', 'display', 'name')
-
-
-class NestedStorageSessionSerializer(WritableNestedSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='plugins-api:netbox_storage-api:storagesession-detail'
-    )
-
-    class Meta:
-        model = StorageSession
-        fields = ('id', 'url', 'display', 'name')
-
-
-class NestedVMDKSerializer(WritableNestedSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='plugins-api:netbox_storage-api:vmdk-detail'
-    )
-
-    class Meta:
-        model = VMDK
-        fields = ('id', 'url', 'display', 'name')
-
-
-#
-# Regular serializers
-#
 
 class StoragePoolSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:storagepool-detail'
     )
-    device = NestedDeviceSerializer()
+    device = DeviceSerializer(nested=True)
 
     class Meta:
         model = StoragePool
@@ -77,13 +19,16 @@ class StoragePoolSerializer(NetBoxModelSerializer):
             'id', 'url', 'display', 'name', 'size', 'device', 'description',
             'tags', 'custom_fields', 'created', 'last_updated',
         )
+        brief_fields = (
+            'id', 'url', 'display', 'name', 'size', 'device',
+        )
 
 
 class LUNSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:lun-detail'
     )
-    storage_pool = NestedStoragePoolSerializer()
+    storage_pool = StoragePoolSerializer(nested=True)
 
     class Meta:
         model = LUN
@@ -91,6 +36,9 @@ class LUNSerializer(NetBoxModelSerializer):
             'id', 'url', 'display', 'name', 'size', 'storage_pool', 'wwn',
             'description', 'tags', 'custom_fields',
             'created', 'last_updated',
+        )
+        brief_fields = (
+            'id', 'url', 'display', 'name', 'size', 'storage_pool', 
         )
 
 
@@ -100,7 +48,7 @@ class DatastoreSerializer(NetBoxModelSerializer):
     )
     lun = SerializedPKRelatedField(
         queryset=LUN.objects.all(),
-        serializer=NestedLUNSerializer,
+        serializer=LUNSerializer,
         many=True
     )
 
@@ -110,16 +58,19 @@ class DatastoreSerializer(NetBoxModelSerializer):
             'id', 'url', 'display', 'name', 'lun',
             'description', 'tags', 'custom_fields', 'created', 'last_updated',
         )
+        brief_fields = (
+            'id', 'url', 'display', 'name', 'lun',
+        )
 
 
 class StorageSessionSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:storagesession-detail'
     )
-    cluster = NestedClusterSerializer()
+    cluster = ClusterSerializer(nested=True)
     datastores = SerializedPKRelatedField(
         queryset=Datastore.objects.all(),
-        serializer=NestedDatastoreSerializer,
+        serializer=DatastoreSerializer,
         many=True
     )
 
@@ -129,18 +80,24 @@ class StorageSessionSerializer(NetBoxModelSerializer):
             'id', 'url', 'display', 'name', 'cluster', 'datastores',
             'description', 'tags', 'custom_fields', 'created', 'last_updated',
         )
+        brief_fields = (
+            'id', 'url', 'display', 'name', 'cluster', 'datastores',
+        )
 
 
 class VMDKSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:vmdk-detail'
     )
-    datastore = NestedDatastoreSerializer()
-    vm = NestedVirtualMachineSerializer()
+    datastore = DatastoreSerializer(nested=True)
+    vm = VirtualMachineSerializer(nested=True)
 
     class Meta:
         model = VMDK
         fields = (
             'id', 'url', 'display', 'vm', 'name', 'datastore',
             'size', 'tags', 'custom_fields', 'created', 'last_updated',
+        )
+        brief_fields = (
+            'id', 'url', 'display', 'vm', 'name', 'datastore', 'size',
         )
