@@ -2,7 +2,7 @@ from django import forms
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm, NetBoxModelImportForm
 from utilities.forms.fields import DynamicModelChoiceField, CSVModelChoiceField, DynamicModelMultipleChoiceField, CSVModelMultipleChoiceField
 from dcim.models import Device
-from virtualization.models import Cluster, VirtualMachine
+from virtualization.models import Cluster, VirtualDisk
 from .models import StoragePool, StorageSession, LUN, Datastore, VMDK
 
 
@@ -57,7 +57,7 @@ class StorageSessionForm(NetBoxModelForm):
 
 class VMDKForm(NetBoxModelForm):
     vm = DynamicModelChoiceField(
-        queryset=VirtualMachine.VirtualDisk.objects.all(),
+        queryset=VirtualDisk.objects.all(),
         label='Virtual Disk'
     )
     datastore = DynamicModelChoiceField(
@@ -114,7 +114,7 @@ class DatastoreFilterForm(NetBoxModelFilterSetForm):
         required=False
     )
     reachable_by_vm = DynamicModelMultipleChoiceField(
-        queryset=VirtualMachine.objects.all(),
+        queryset=VirtualDisk.objects.all(),
         required=False,
         label='Reachable by these Virtual Machines'
     )
@@ -142,7 +142,7 @@ class VMDKFilterForm(NetBoxModelFilterSetForm):
         required=False
     )
     vm = DynamicModelMultipleChoiceField(
-        queryset=VirtualMachine.VirtualDisk.objects.all(),
+        queryset=VirtualDisk.objects.all(),
         required=False
     )
     name = forms.CharField(
@@ -206,7 +206,7 @@ class StorageSessionCSVForm(NetBoxModelImportForm):
 
 class VMDKCSVForm(NetBoxModelImportForm):
     vm = CSVModelChoiceField(
-        queryset=VirtualMachine.VirtualDisk.objects.all(),
+        queryset=VirtualDisk.objects.all(),
         to_field_name='name',
     )
     datastore = CSVModelChoiceField(

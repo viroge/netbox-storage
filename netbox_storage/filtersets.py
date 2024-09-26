@@ -1,6 +1,6 @@
 from netbox.filtersets import NetBoxModelFilterSet
 import django_filters
-from virtualization.models import VirtualMachine
+from virtualization.models import VirtualDisk
 from .models import StoragePool, LUN, StorageSession, Datastore, VMDK
 
 
@@ -27,7 +27,7 @@ class LUNFilterSet(NetBoxModelFilterSet):
 class DatastoreFilterSet(NetBoxModelFilterSet):
     reachable_by_vm = django_filters.ModelMultipleChoiceFilter(
         field_name='storage_sessions__cluster__virtual_machines',
-        queryset=VirtualMachine.objects.all(),
+        queryset=VirtualDisk.objects.all(),
         label='Reachable by these Virtual Machines'
     )
 
