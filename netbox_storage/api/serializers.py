@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from virtualization.api.serializers import ClusterSerializer, VirtualMachineSerializer
 from dcim.api.serializers import DeviceSerializer
-from netbox.api.serializers import NetBoxModelSerializer, WritableSerializer
+from netbox.api.serializers import NetBoxModelSerializer, WritableNestedSerializer
 from netbox.api.fields import SerializedPKRelatedField
 from ..models import StoragePool, LUN, StorageSession, Datastore, VMDK
 
@@ -11,7 +11,7 @@ from ..models import StoragePool, LUN, StorageSession, Datastore, VMDK
 #  serializers
 #
 
-class StoragePoolSerializer(WritableSerializer):
+class StoragePoolSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:storagepool-detail'
     )
@@ -21,7 +21,7 @@ class StoragePoolSerializer(WritableSerializer):
         fields = ('id', 'url', 'display', 'name')
 
 
-class LUNSerializer(WritableSerializer):
+class LUNSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:lun-detail'
     )
@@ -31,7 +31,7 @@ class LUNSerializer(WritableSerializer):
         fields = ('id', 'url', 'display', 'name')
 
 
-class DatastoreSerializer(WritableSerializer):
+class DatastoreSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:datastore-detail'
     )
@@ -41,7 +41,7 @@ class DatastoreSerializer(WritableSerializer):
         fields = ('id', 'url', 'display', 'name')
 
 
-class StorageSessionSerializer(WritableSerializer):
+class StorageSessionSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:storagesession-detail'
     )
@@ -51,7 +51,7 @@ class StorageSessionSerializer(WritableSerializer):
         fields = ('id', 'url', 'display', 'name')
 
 
-class VMDKSerializer(WritableSerializer):
+class VMDKSerializer(WritableNestedSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:vmdk-detail'
     )
