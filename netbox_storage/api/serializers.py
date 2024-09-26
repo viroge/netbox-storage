@@ -1,17 +1,17 @@
 from rest_framework import serializers
 
-from virtualization.api.serializers import NestedClusterSerializer, NestedVirtualMachineSerializer
-from dcim.api.serializers import NestedDeviceSerializer
-from netbox.api.serializers import NetBoxModelSerializer, WritableNestedSerializer
+from virtualization.api.serializers import ClusterSerializer, VirtualMachineSerializer
+from dcim.api.serializers import DeviceSerializer
+from netbox.api.serializers import NetBoxModelSerializer, WritableSerializer
 from netbox.api.fields import SerializedPKRelatedField
 from ..models import StoragePool, LUN, StorageSession, Datastore, VMDK
 
 
 #
-# Nested serializers
+#  serializers
 #
 
-class NestedStoragePoolSerializer(WritableNestedSerializer):
+class StoragePoolSerializer(WritableSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:storagepool-detail'
     )
@@ -21,7 +21,7 @@ class NestedStoragePoolSerializer(WritableNestedSerializer):
         fields = ('id', 'url', 'display', 'name')
 
 
-class NestedLUNSerializer(WritableNestedSerializer):
+class LUNSerializer(WritableSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:lun-detail'
     )
@@ -31,7 +31,7 @@ class NestedLUNSerializer(WritableNestedSerializer):
         fields = ('id', 'url', 'display', 'name')
 
 
-class NestedDatastoreSerializer(WritableNestedSerializer):
+class DatastoreSerializer(WritableSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:datastore-detail'
     )
@@ -41,7 +41,7 @@ class NestedDatastoreSerializer(WritableNestedSerializer):
         fields = ('id', 'url', 'display', 'name')
 
 
-class NestedStorageSessionSerializer(WritableNestedSerializer):
+class StorageSessionSerializer(WritableSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:storagesession-detail'
     )
@@ -51,7 +51,7 @@ class NestedStorageSessionSerializer(WritableNestedSerializer):
         fields = ('id', 'url', 'display', 'name')
 
 
-class NestedVMDKSerializer(WritableNestedSerializer):
+class VMDKSerializer(WritableSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:vmdk-detail'
     )
@@ -69,7 +69,7 @@ class StoragePoolSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:storagepool-detail'
     )
-    device = NestedDeviceSerializer()
+    device = DeviceSerializer()
 
     class Meta:
         model = StoragePool
@@ -83,7 +83,7 @@ class LUNSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:lun-detail'
     )
-    storage_pool = NestedStoragePoolSerializer()
+    storage_pool = StoragePoolSerializer()
 
     class Meta:
         model = LUN
@@ -100,7 +100,7 @@ class DatastoreSerializer(NetBoxModelSerializer):
     )
     lun = SerializedPKRelatedField(
         queryset=LUN.objects.all(),
-        serializer=NestedLUNSerializer,
+        serializer=LUNSerializer,
         many=True
     )
 
@@ -116,10 +116,10 @@ class StorageSessionSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:storagesession-detail'
     )
-    cluster = NestedClusterSerializer()
+    cluster = ClusterSerializer()
     datastores = SerializedPKRelatedField(
         queryset=Datastore.objects.all(),
-        serializer=NestedDatastoreSerializer,
+        serializer=DatastoreSerializer,
         many=True
     )
 
@@ -135,8 +135,8 @@ class VMDKSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='plugins-api:netbox_storage-api:vmdk-detail'
     )
-    datastore = NestedDatastoreSerializer()
-    vm = NestedVirtualMachineSerializer()
+    datastore = DatastoreSerializer()
+    vm = VirtualMachineSerializer()
 
     class Meta:
         model = VMDK
