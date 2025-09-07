@@ -3,7 +3,7 @@ from .models import VMDK
 
 
 class VMVMDKCard(PluginTemplateExtension):
-    model = 'virtualization.virtualmachine'
+    models = ['virtualization.virtualmachine', ]
 
     def left_page(self):
         return self.render('netbox_storage/vm_vmdk_extend.html',
